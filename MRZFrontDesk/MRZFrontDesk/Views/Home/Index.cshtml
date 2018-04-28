@@ -1,0 +1,389 @@
+﻿@{
+    ViewBag.Title = "MRZ Front Desk";
+}
+
+<div class="jumbotron vertical-center">
+    <div class="container text-center">
+        <div class="row">
+            <div id="panelError" class="alert alert-danger">
+            </div>
+        </div>
+        <div class="row">
+            <div style="float:left;">
+                <img src="~/img/User-icon.png" width="256" height="256" />
+            </div>
+            <div class="rTable" style="float:left;">
+                @*https://html-cleaner.com/features/replace-html-table-tags-with-divs/*@
+                <div class="rTableRow">
+                    <div class="rTableCell facetLabel">Passport No:</div>
+                    <div class="rTableCell divInput"><input id="txtboxPassportNum" type="text" maxlength="9" size="9" title="Enter Passport No."/></div>
+                </div>
+                <div class="rTableRow">
+                    <div class="rTableCell facetLabel">Nationality:</div>
+                    <div class="rTableCell divInput"><input id="txtboxNationality" type="text" maxlength="3" size="3" /></div>
+                </div>
+                <div class="rTableRow">
+                    <div class="rTableCell facetLabel">Date of Birth:</div>
+                    <div class="rTableCell divInput"><input id="txtboxDateOfBirth" type="text" maxlength="6" size="6" title="YYMMDD" /></div>
+                </div>
+                <div class="rTableRow">
+                    <div class="rTableCell facetLabel">Gender:</div>
+                    <div id="divGender" class="rTableCell divInput">
+                        <input type="radio" name="gender" value="M" checked="checked"> <span style="padding-right:15px;">Male</span> 
+                        <input type="radio" name="gender" value="F"> <span style="padding-right:15px;">Female</span>
+                        <input type="radio" name="gender" value="<"> Unspecified
+                    </div>
+                </div>
+                <div class="rTableRow">
+                    <div class="rTableCell facetLabel">Date of Expiry:</div>
+                    <div class="rTableCell divInput"><input id="txtboxDateOfExpiry" type="text" maxlength="6" size="6" title="YYMMDD" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mrzRow">
+            <div>MRZ (line 2)</div>
+            <div style="margin-left:10px">
+                <div id="containerMRZ" class="containerMRZ" style="float:left;">
+                    <input type="text" maxlength="9" style="width:112px" />
+                    <input type="text" maxlength="1" style="width:18px" />
+                    <input type="text" maxlength="3" style="width:40px" />
+                    <input type="text" maxlength="6" style="width:65px" />
+                    <input type="text" maxlength="1" style="width:18px" />
+                    <input type="text" maxlength="1" style="width:20px" />
+                    <input type="text" maxlength="6" style="width:65px" />
+                    <input type="text" maxlength="1" style="width:18px" />
+                    <input type="text" maxlength="14" style="width:170px" />
+                    <input type="text" maxlength="1" style="width:18px" />
+                    <input type="text" maxlength="1" style="width:18px" />
+                </div>
+                <div id="commonMRZInput" style="float:left;">
+                    <input id="txtboxCommonMRZInput" type="text" maxlength="44" size="70" title="Enter MRZ" />
+                </div>
+                <div id="btnToggle" style="cursor:pointer;float:left;margin-left:10px;margin-top:7px;" title="Toggle between split and normal mode.">
+                    <img src="../img/icon_toggle.gif" />
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-center divAction">
+            <div class="col"><button type="button" class="btn btn-info" onclick="javascript: CheckData(this);">Validate</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div id="resultModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="btnClose" class="close">&times;</span>
+       </div>
+        <div class="modal-body">
+            <div class="vertical-center">
+                <div class="rTable" style="margin-bottom:20px;">
+                    <div class="rTableRow">
+                        <div class="rTableHead" style="text-align:right;"><strong>Field Test</strong></div>
+                        <div class="rTableHead" style="text-align:center;"><strong>Result</strong></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Passport Number Check Digit</div>
+                        <div id="lblPassportNumCheckDigit" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Date of Birth Check Digit</div>
+                        <div id="lblDOBCheckDigit" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Passport Expiration Date Check Digit</div>
+                        <div id="lblPassportExpirationDateCheckDigit" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Personal Number Check Digit</div>
+                        <div id="lblPersonalNumberCheckDigit" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Final Check Digit</div>
+                        <div id="lblFinalCheckDigit" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Gender Cross Check</div>
+                        <div id="lblGenderCrossCheck" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Date of Birth Cross Check</div>
+                        <div id="lblDOBCrossCheck" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Expiration Data Cross Check</div>
+                        <div id="lblExpirationDateCrossCheck" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Nationality Cross Check</div>
+                        <div id="lblNationalityCrossCheck" class="rTableCell divInput"></div>
+                    </div>
+                    <div class="rTableRow">
+                        <div class="rTableCell facetLabel">Passport Number Cross Check</div>
+                        <div id="lblPassportNumberCrossCheck" class="rTableCell divInput"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <div class="divTick legendResult"></div> <span><strong> =   Pass</strong></span>
+                    </div>
+                    <div>
+                        <div class="divCross legendResult"></div><span><strong> =   Fail</strong></span>
+                    </div>
+                    <div id="panelStatistic">
+                        <h5>Statistic</h5>
+                        <div>
+                            <strong>Pass :   </strong><span id="lblStatPassed"></span> 
+                        </div>
+                        <div>
+                            <strong>Failed :   </strong><span id="lblStatFailed"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <h2></h2>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    var endpointURL = '@System.Configuration.ConfigurationManager.AppSettings["MRZVerifierEndpoint"]';
+    var modal = $('#resultModal')[0];
+
+    $(document).ready(function () {
+      
+        $('#panelError').hide();
+        $('#containerMRZ').show();
+        $('#commonMRZInput').hide();
+
+        $("#txtboxPassportNum, #txtboxDateOfBirth, #txtboxDateOfExpiry, #txtboxcommonMRZInput").WaterMark();
+  
+        var container = $("#containerMRZ")[0];
+        container.onkeyup = function (e) {
+            var target = e.srcElement || e.target;
+            var maxLength = parseInt(target.attributes["maxlength"].value, 10);
+            var myLength = target.value.length;
+            if (myLength >= maxLength) {
+                var next = target;
+                while (next = next.nextElementSibling) {
+                    if (next == null)
+                        break;
+                    if (next.tagName.toLowerCase() === "input") {
+                        next.focus();
+                        break;
+                    }
+                }
+            }
+                // Move to previous field if empty (user pressed backspace)
+            else if (myLength === 0) {
+                var previous = target;
+                while (previous = previous.previousElementSibling) {
+                    if (previous == null)
+                        break;
+                    if (previous.tagName.toLowerCase() === "input") {
+                        previous.focus();
+                        break;
+                    }
+                }
+            }
+        }
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    $("#btnToggle").click(function () {
+        if ($('#commonMRZInput').is(":visible"))
+        {
+            $('#containerMRZ').show();
+            $('#commonMRZInput').hide();
+        }
+        else {
+            $('#containerMRZ').hide();
+            $('#commonMRZInput').show();
+        }
+    });
+   
+    function ValidateUserInput()
+    {
+        $('#panelError').empty();
+        $('#panelError').hide();
+
+        var errorMessage = '';
+
+        if ($('#txtboxPassportNum').val().trim() == '')
+        {
+            errorMessage += '<li>Passport number is required.</li><br/>'
+        }
+
+        if($('#txtboxNationality').val().trim() == '')
+        {
+            errorMessage += '<li>Nationality is required.</li><br/>';
+        }
+
+        if ($('#txtboxDateOfBirth').val().trim() == '') {
+            errorMessage += '<li>Date of birth is required.</li><br/>';
+        }
+        else if (!isValidDate($('#txtboxDateOfBirth').val().trim()))
+        {
+            errorMessage += '<li>Date of birth is not valid.</li><br/>';
+        }
+        
+        if ($('#txtboxDateOfExpiry').val().trim() == '') {
+            errorMessage += '<li>Date of expiry is required.</li><br/>';
+        }
+        else if (!isValidDate($('#txtboxDateOfExpiry').val().trim())) {
+            errorMessage += '<li>Date of expiry is not valid.</li><br/>';
+        }
+
+        if(RetrieveMRZInput() == '')
+        {
+            errorMessage += '<li>MRZ (line 2) input is required.</li><br/>';
+        }
+
+        if(errorMessage != '')
+        {
+            $('<p style="color:yellow;"><b>Error</b></p><div style="line-height:0.8;"><ul>' + errorMessage + '</ul></div>').appendTo('#panelError');
+            $('#panelError').show();
+            return false;
+        }
+
+        return true;
+    }
+
+    function RetrieveMRZInput()
+    {
+        if ($('#commonMRZInput').is(":visible"))
+        {
+            return $('#txtboxCommonMRZInput').val();
+        }
+
+        var MRZInputs = $('#containerMRZ input');
+
+        var temp = '';
+        for (var i = 0; i < MRZInputs.length; i++)
+        {
+            temp += $(MRZInputs[i]).val();
+        }
+
+        return temp;
+
+    }
+
+    function isValidDate(date) {
+        var matches = /^(\d{2})(\d{2})(\d{2})$/.exec(date);
+        if (matches == null) return false;
+        var y = matches[1];
+        var m = matches[2] - 1;
+        var d = matches[3];
+        var composedDate = new Date(y, m, d);
+        return composedDate.getDate() == d &&
+               composedDate.getMonth() == m &&
+               composedDate.getYear() == y;
+    }
+        
+    function CheckData(event) {
+        
+        if (!ValidateUserInput())
+            return false;
+                
+        var userInput = {
+            "pn": encodeURIComponent($('#txtboxPassportNum').val().trim()),
+            "n": encodeURIComponent($('#txtboxNationality').val().trim()),
+            "dob": encodeURIComponent($('#txtboxDateOfBirth').val().trim()),
+            "g": $("#divGender input[type='radio']:checked").val(),
+            "ped": encodeURIComponent($('#txtboxDateOfExpiry').val().trim()),
+            "mrz": encodeURIComponent(RetrieveMRZInput())
+        };
+
+        $('#panelError').empty();
+        $('#panelError').hide();
+                
+        $.ajax({
+            type: "POST",
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            url: endpointURL,
+            crossDomain:true,
+            data: {
+                inputString: JSON.stringify(userInput)
+            },
+            success: function (response) {
+                if (response != null && response.Success == true) {
+                    modal.style.display = "block";
+                    PopulateValidationResult(JSON.parse(response.Result));
+                }
+                else {
+                    $('#panelError').show();
+                    $('<p style="color:yellow;"><b>Error</b></p><div><ul><li>' + response.ErrorMessage + '</li></ul></div>').appendTo('#panelError');
+                }
+            },
+            error: function (err) {
+                $('#panelError').show();
+                $('<p style="color:yellow;"><b>Error</b></p><div><ul><li>' + err.responseText + '</ul></li></div>').appendTo('#panelError');
+            }
+        });
+
+        return false;
+    }
+
+    var countSuccess = 0;
+    var countTotal = 0;
+
+    function PopulateValidationResult(result)
+    {
+        countSuccess = 0;
+        countTotal = 0;
+
+        SetResultDic($('#lblPassportNumCheckDigit'), result.pncd);
+        SetResultDic($('#lblDOBCheckDigit'), result.dobcd);
+        SetResultDic($('#lblPassportExpirationDateCheckDigit'), result.pedcd);
+        SetResultDic($('#lblPersonalNumberCheckDigit'), result.pnumcd);
+        SetResultDic($('#lblFinalCheckDigit'), result.fcd);
+        SetResultDic($('#lblGenderCrossCheck'), result.gcd);
+        SetResultDic($('#lblDOBCrossCheck'), result.dobcc);
+        SetResultDic($('#lblExpirationDateCrossCheck'), result.edcc);
+        SetResultDic($('#lblNationalityCrossCheck'), result.ncc);
+        SetResultDic($('#lblPassportNumberCrossCheck'), result.pncc);
+
+        var percentageSuccess = ((countSuccess / countTotal) * 100).toFixed(2);
+
+        $('#lblStatPassed').text(countSuccess + '/' + countTotal + '  (' + percentageSuccess + '%)');
+        $('#lblStatFailed').text((countTotal - countSuccess) + '/' + countTotal + '  (' + (100.00 - parseFloat(percentageSuccess)).toFixed(2) + '%)');
+    }
+
+    function SetResultDic(lbl, result)
+    {
+        countTotal++;
+        var cssTick = 'divTick';
+        var cssCross = 'divCross';
+
+        lbl.removeClass(cssTick);
+        lbl.removeClass(cssCross);
+
+        if (result == true) {
+            lbl.addClass(cssTick);
+            countSuccess++;
+        }
+        else
+            lbl.addClass(cssCross);
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    $('#btnClose').click(function() {
+        modal.style.display = "none";
+    });
+
+    </script>

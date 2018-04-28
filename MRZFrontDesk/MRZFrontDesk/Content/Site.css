@@ -1,0 +1,118 @@
+﻿    /*https://bootswatch.com/solar/*/
+    /*table CSS*/
+.rTable {
+  	display: block;
+  	width: 70%;
+      margin-left:30px;
+      margin-top:50px;
+}
+.rTableHeading, .rTableBody, .rTableFoot, .rTableRow{
+  	clear: both;
+}
+.rTableHead, .rTableFoot{
+  	background-color: #DDD;
+  	font-weight: bold;
+}
+.rTableCell, .rTableHead {
+  	border: 1px solid #999999;
+  	float: left;
+  	height: 37px;
+  	overflow: hidden;
+  	padding: 3px 1.8%;
+  	width: 40%;
+}
+.rTable:after {
+  	visibility: hidden;
+  	display: block;
+  	font-size: 0;
+  	content: " ";
+  	clear: both;
+  	height: 0;
+}
+
+.facetLabel {
+    text-align:right;
+}
+
+.mrzRow
+{
+    padding-top:20px;
+}
+
+html, body {
+  height: 100%;
+}
+
+.jumbotron.vertical-center {
+  margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for vh unit */
+  min-height: 70vh; 
+
+  /* Make it a flex container */
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex; 
+  
+  /* Align the bootstrap's container vertically */
+    -webkit-box-align : center;
+  -webkit-align-items : center;
+       -moz-box-align : center;
+       -ms-flex-align : center;
+          align-items : center;
+  
+  /* In legacy web browsers such as Firefox 9
+     we need to specify the width of the flex container */
+  width: 100%;
+
+         -webkit-box-pack : center;
+            -moz-box-pack : center;
+            -ms-flex-pack : center;
+  -webkit-justify-content : center;
+          justify-content : center;
+}
+
+.divAction
+{
+    padding-top:20px;
+}
+
+.divInput{
+    text-align:left;
+}
+
+.containerMRZ input{
+    float:left;
+}
+
+#panelError{
+    text-align:left;
+    width:100%;
+}
+
+.divTick
+{
+    background: url('../img/icon_tick.png') center no-repeat;
+}
+
+.divCross
+{
+    background: url('../img/icon_cross.png') center no-repeat;
+}
+
+.legendResult
+{
+    width:20px;
+    height:20px;
+    float:left;
+    margin-right:5px;
+}
+
+#panelStatistic
+{
+    margin-top:20px;
+}
