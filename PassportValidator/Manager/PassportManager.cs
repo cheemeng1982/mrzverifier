@@ -4,9 +4,13 @@ using System.Linq;
 using System.Web;
 using PassportValidator;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PassportValidator
 {
+    /// <summary>
+    /// Core class contains the logic to cross validate the MRZ and user input
+    /// </summary>
     public class PassportManager
     {
         const int MRZ_CHAR_COUNT = 44;
@@ -63,7 +67,7 @@ namespace PassportValidator
             {
                 throw new PassportDataException(string.Format("The input MRZ character count is not correct : {0}", mrz.Length));
             }
-
+           
             StringBuilder errors = new StringBuilder();
 
             PassportData pd = new PassportData();
@@ -80,6 +84,14 @@ namespace PassportValidator
             pd.FinalCheckDigit = mrz.Substring(43, 1);
 
             // Validate fields
+            if(!isValidPassportAlphaNumeric(pd.PassportNumber))
+            {
+                errors.AppendLine(string.Format("Invalid passport character found in given MRZ : \"{0}\"\n", pd.PassportNumber));
+            }
+            if(!Helper.DictNationality.Keys.Any(k => k == pd.Nationality))
+            {
+                errors.AppendLine(string.Format("Invalid nationality given in MRZ : \"{0}\"\n", pd.Nationality));
+            }
             if(!IsValidDateFormat(pd.DateOfBirth))
             {
                 errors.AppendLine(string.Format("Invalid date of birth given in MRZ : \"{0}\"\n", pd.DateOfBirth));
@@ -99,6 +111,12 @@ namespace PassportValidator
             }
 
             return pd;
+        }
+
+        private bool isValidPassportAlphaNumeric(string strToCheck)
+        {
+            Regex rg = new Regex(@"^[A-Z0-9<]*$");
+            return rg.IsMatch(strToCheck);
         }
 
         private bool IsValidDateFormat(string dateInput)

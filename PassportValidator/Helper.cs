@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml;
 
 namespace PassportValidator
 {
@@ -48,5 +49,35 @@ namespace PassportValidator
                 {"Y",34 },
                 {"Z",35 }
         };
+
+        private static Dictionary<string, string> ISONationality = null;
+        public static Dictionary<string, string> DictNationality
+        {
+            get
+                {
+                if (ISONationality != null)
+                    return ISONationality;
+
+                // Load data into dictionary
+                try
+                {
+                    XmlDocument xd = new XmlDocument();
+                    xd.Load(AppDomain.CurrentDomain.BaseDirectory + @"\Content\xmlNationalityISO.xml");
+
+                    XmlNodeList nodelist = xd.SelectNodes("/root/Nationality");
+                    ISONationality = new Dictionary<string, string>();
+
+                    foreach (XmlNode node in nodelist) // for each <testcase> node
+                    {
+                        ISONationality.Add(node.SelectSingleNode("Code").InnerText, node.SelectSingleNode("Country").InnerText);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return ISONationality;
+            }
+        }
     }
 }

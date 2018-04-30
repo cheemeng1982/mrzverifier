@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRZVerifierAPI", "MRZVerifi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassportValidator", "PassportValidator\PassportValidator.csproj", "{542265A0-87F8-435D-95FA-8BFA00BEECA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestMRZVerifier", "UnitTestMRZVerifier\UnitTestMRZVerifier.csproj", "{1F34F8B6-BE74-4AEB-AB29-C6D47C7E4F20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{542265A0-87F8-435D-95FA-8BFA00BEECA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{542265A0-87F8-435D-95FA-8BFA00BEECA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{542265A0-87F8-435D-95FA-8BFA00BEECA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F34F8B6-BE74-4AEB-AB29-C6D47C7E4F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F34F8B6-BE74-4AEB-AB29-C6D47C7E4F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F34F8B6-BE74-4AEB-AB29-C6D47C7E4F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F34F8B6-BE74-4AEB-AB29-C6D47C7E4F20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

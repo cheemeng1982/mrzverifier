@@ -228,6 +228,12 @@
             errorMessage += '<li>Passport number is required.</li><br/>'
         }
 
+        var regexp = /^[A-Z0-9<]+$/;
+        if ($('#txtboxPassportNum').val().search(regexp) == -1)
+        {
+            errorMessage += '<li>Passport number contains invalid character. The only valid characters allowed are A–Z, 0–9 and the filler character "<".</li><br/>'
+        }
+       
         if($('#txtboxNationality').val().trim() == '')
         {
             errorMessage += '<li>Nationality is required.</li><br/>';
