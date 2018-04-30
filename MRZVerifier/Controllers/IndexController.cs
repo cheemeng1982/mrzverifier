@@ -27,10 +27,12 @@ namespace MRZVerifier.Controllers
             }
             catch(PassportDataException ex)
             {
+                Logger.LogContent(ex);
                 return Json(JsonResponseFactory.ErrorResponse(ex.Message));
             }
             catch(Exception ex)
             {
+                Logger.LogContent(ex);
                 return Json(JsonResponseFactory.ErrorResponse(string.Format("{0}  |  {1}", ex.Message, ex.StackTrace)));
             }
 
