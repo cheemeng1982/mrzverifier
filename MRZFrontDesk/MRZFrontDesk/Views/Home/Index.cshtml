@@ -333,12 +333,19 @@
                 }
                 else {
                     $('#panelError').show();
-                    $('<p style="color:yellow;"><b>Error</b></p><div><ul><li>' + response.ErrorMessage + '</li></ul></div>').appendTo('#panelError');
+                    var tempArr = response.ErrorMessage.split('\n');
+                    var tmp = '';
+                    for (var i = 0; i < tempArr.length; i++)
+                    {
+                        if (tempArr[i].trim() != '')
+                            tmp += '<li>' + tempArr[i] + '</li>';
+                    }
+                    $('<p style="color:yellow;"><b>Error</b></p><div><ul>' + tmp + '</ul></div>').appendTo('#panelError');
                 }
             },
             error: function (err) {
                 $('#panelError').show();
-                $('<p style="color:yellow;"><b>Error</b></p><div><ul><li>' + err.responseText + '</ul></li></div>').appendTo('#panelError');
+                $('<p style="color:yellow;"><b>Error</b></p><div><ul><li>' + err.responseText + '</li></ul></div>').appendTo('#panelError');
             }
         });
 
