@@ -15,10 +15,10 @@ namespace UnitTestMRZVerifier
         PassportManager pm = new PassportManager();
 
         [TestMethod]
-        [DataRow(@"{'pn':'958781724','n':'GBR','dob':'380124','g':'F','ped':'160101','mrz':'9587817249GBR3801242F1601013<<<<<<<<<<<<<<08'}")]
-        [DataRow(@"{'pn':'742564695','n':'GBR','dob':'491222','g':'F','ped':'160101','mrz':'7425646954GBR4912228F1601013<<<<<<<<<<<<<<06'}")]
-        [DataRow(@"{'pn':'125599844','n':'MYS','dob':'821113','g':'M','ped':'220101','mrz':'1255998441MYS8211136M2201018<<<<<<<<<<<<<<02'}")]
-        [DataRow(@"{'pn':'785623541','n':'SGP','dob':'851201','g':'M','ped':'250131','mrz':'7856235417SGP8512017M2501316<<<<<<<<AA<<<<04'}")]
+        [DataRow(@"{'pn':'958781724','n':'GBR','dob':'24%2F01%2F1938','g':'F','ped':'01%2F01%2F2016','mrz':'9587817249GBR3801242F1601013<<<<<<<<<<<<<<08'}")]
+        [DataRow(@"{'pn':'742564695','n':'GBR','dob':'22%2F12%2F1949','g':'F','ped':'01%2F01%2F2016','mrz':'7425646954GBR4912228F1601013<<<<<<<<<<<<<<06'}")]
+        [DataRow(@"{'pn':'125599844','n':'MYS','dob':'13%2F11%2F1982','g':'M','ped':'01%2F01%2F2022','mrz':'1255998441MYS8211136M2201018<<<<<<<<<<<<<<02'}")]
+        [DataRow(@"{'pn':'785623541','n':'SGP','dob':'01%2F12%2F1985','g':'M','ped':'31%2F01%2F2025','mrz':'7856235417SGP8512017M2501316<<<<<<<<AA<<<<04'}")]
 
         public void TestPassportPositiveData(string jsonNotation)
         {
@@ -38,8 +38,8 @@ namespace UnitTestMRZVerifier
         }
         
         [TestMethod]
-        [DataRow(@"{'pn':'742564695','n':'GBR','dob':'491222','g':'F','ped':'160101','mrz':'7425646951GBR4912228F1601013<<<<<<<<<<<<<<06'}")]
-        [DataRow(@"{'pn':'125599844','n':'MYS','dob':'821113','g':'M','ped':'220101','mrz':'1255998449MYS8211136M2201018<<<<<<<<<<<<<<02'}")]
+        [DataRow(@"{'pn':'742564695','n':'GBR','dob':'22%2F12%2F1949','g':'F','ped':'01%2F01%2F2016','mrz':'7425646951GBR4912228F1601013<<<<<<<<<<<<<<06'}")]
+        [DataRow(@"{'pn':'125599844','n':'MYS','dob':'13%2F11%2F1982','g':'M','ped':'01%2F01%2F2022','mrz':'1255998449MYS8211136M2201018<<<<<<<<<<<<<<02'}")]
 
         public void TestMRZInvalidPassportNumberCheckDigit(string jsonNotation)
         {
@@ -59,7 +59,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'990613','g':'M','ped':'281201','mrz':'8881413445MYS9906135M2812014<<<<<<<<<<<<<<00'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F06%2F1999','g':'M','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906135M2812014<<<<<<<<<<<<<<00'}")]
         public void TestMRZInvalidDOBCheckDigit(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -78,7 +78,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'990613','g':'M','ped':'281201','mrz':'8881413445MYS9906138M2812010<<<<<<<<<<<<<<00'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F06%2F1999','g':'M','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906138M2812010<<<<<<<<<<<<<<00'}")]
         public void TestMRZInvalidPassportExpiryDateCheckDigit(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -97,7 +97,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'990613','g':'M','ped':'281201','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<80'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F06%2F1999','g':'M','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<80'}")]
         public void TestMRZInvalidPassportPersonalNumberCheckDigit(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -116,7 +116,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'990613','g':'M','ped':'281201','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<09'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F06%2F1999','g':'M','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<09'}")]
         public void TestMRZInvalidFinalCheckDigit(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -135,8 +135,8 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'125599822','n':'MYS','dob':'821113','g':'M','ped':'220101','mrz':'1255998441MYS8211136M2201018<<<<<<<<<<<<<<02'}")]
-        [DataRow(@"{'pn':'785603541','n':'SGP','dob':'851201','g':'M','ped':'250131','mrz':'7856235417SGP8512017M2501316<<<<<<<<AA<<<<04'}")]
+        [DataRow(@"{'pn':'125599822','n':'MYS','dob':'13%2F11%2F1982','g':'M','ped':'01%2F01%2F2022','mrz':'1255998441MYS8211136M2201018<<<<<<<<<<<<<<02'}")]
+        [DataRow(@"{'pn':'785603541','n':'SGP','dob':'01%2F12%2F1985','g':'M','ped':'31%2F01%2F2025','mrz':'7856235417SGP8512017M2501316<<<<<<<<AA<<<<04'}")]
 
         public void TestMRZInvalidPassportNumberCrossCheck(string jsonNotation)
         {
@@ -156,7 +156,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'990613','g':'<','ped':'281201','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F06%2F1999','g':'<','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
         public void TestMRZInvalidGenderCrossCheck(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -175,7 +175,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'990613','g':'M','ped':'281222','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F06%2F1999','g':'M','ped':'22%2F12%2F2028','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
         public void TestMRZInvalidPassportExpirationDateCrossCheck(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -194,7 +194,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'GBR','dob':'990613','g':'M','ped':'281201','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
+        [DataRow(@"{'pn':'888141344','n':'GBR','dob':'13%2F06%2F1999','g':'M','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
         public void TestMRZInvalidNationalityCrossCheck(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);
@@ -213,7 +213,7 @@ namespace UnitTestMRZVerifier
         }
 
         [TestMethod]
-        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'821113','g':'M','ped':'281201','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
+        [DataRow(@"{'pn':'888141344','n':'MYS','dob':'13%2F11%2F1982','g':'M','ped':'01%2F12%2F2028','mrz':'8881413445MYS9906138M2812014<<<<<<<<<<<<<<00'}")]
         public void TestMRZInvalidDateOfBirthCrossCheck(string jsonNotation)
         {
             var validationResult = InvokeValidation(jsonNotation);

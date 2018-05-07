@@ -24,7 +24,11 @@
                 </div>
                 <div class="rTableRow">
                     <div class="rTableCell facetLabel">Date of Birth:</div>
-                    <div class="rTableCell divInput"><input id="txtboxDateOfBirth" type="text" maxlength="6" size="6" title="YYMMDD" /></div>
+                    <div class="rTableCell divInput">
+                        <div class="input-append date form_datetime form_DOB">
+                            <input id="txtboxDateOfBirth" size="10" title="DD/MM/YYYY" type="text" value="" maxlength="10"><span class="iconTHDOB add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="rTableRow">
                     <div class="rTableCell facetLabel">Gender:</div>
@@ -36,7 +40,11 @@
                 </div>
                 <div class="rTableRow">
                     <div class="rTableCell facetLabel">Date of Expiry:</div>
-                    <div class="rTableCell divInput"><input id="txtboxDateOfExpiry" type="text" maxlength="6" size="6" title="YYMMDD" /></div>
+                    <div class="rTableCell divInput">
+                        <div class="input-append date form_datetime form_DOE">
+                            <input id="txtboxDateOfExpiry" size="10" title="DD/MM/YYYY" type="text" value="" maxlength="10"><span class="iconTHDOE add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,8 +172,50 @@
         $('#containerMRZ').show();
         $('#commonMRZInput').hide();
 
-        $("#txtboxPassportNum, #txtboxDateOfBirth, #txtboxDateOfExpiry, #txtboxcommonMRZInput").WaterMark();
-  
+        $("#txtboxPassportNum, #txtboxcommonMRZInput").WaterMark();
+
+        $("#txtboxDateOfBirth").datetimepicker({
+            dateFormat: "dd/mm/yy",
+            autoclose: true,
+            todayBtn: true,
+            'showTimepicker': false,
+            minView: 2,
+            showButtonPanel: true,
+            currentText: 'Today',
+            closeText: 'Close',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-150:+150",
+            onSelect: function (dateText, inst) {
+                $('#' + inst.id).attr('value', dateText);
+            }
+        });
+
+        $(".iconTHDOB").click(function () {
+            $("#txtboxDateOfBirth").datepicker("show");
+        }); 
+        
+        $("#txtboxDateOfExpiry").datetimepicker({
+            dateFormat: "dd/mm/yy",
+            autoclose: true,
+            todayBtn: true,
+            'showTimepicker': false,
+            minView: 2,
+            showButtonPanel: true,
+            currentText: 'Today',
+            closeText: 'Close',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-150:+150",
+            onSelect: function (dateText, inst) {
+                $('#' + inst.id).attr('value', dateText);
+            }
+        });
+
+        $(".iconTHDOE").click(function () {
+            $("#txtboxDateOfExpiry").datepicker("show");
+        }); 
+          
         var container = $("#containerMRZ")[0];
         container.onkeyup = function (e) {
             var target = e.srcElement || e.target;
@@ -288,17 +338,15 @@
 
     }
 
-    function isValidDate(date) {
-        var matches = /^(\d{2})(\d{2})(\d{2})$/.exec(date);
-        if (matches == null) return false;
-        var y = matches[1];
-        var m = matches[2] - 1;
-        var d = matches[3];
-        var composedDate = new Date(y, m, d);
-        return composedDate.getDate() == d &&
-               composedDate.getMonth() == m &&
-               composedDate.getYear() == y;
+    function isValidDate(str) {
+        var m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
+           , d = (m) ? new Date(m[3], m[2] - 1, m[1]) : null
+           , matchesPadded = (d && (str == [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')))
+           , matchesNonPadded = (d && (str == [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/')));
+                return (matchesPadded || matchesNonPadded);
     }
+
+    function pad(x) { return ((('' + x).length == 2) ? '' : '0') + x; }
         
     function CheckData(event) {
         

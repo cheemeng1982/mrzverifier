@@ -44,8 +44,8 @@ namespace PassportValidator
 
                 // Cross check data process
                 pvr.GenderCrossCheck = scannedData.Sex == pi.Gender;
-                pvr.DateOfBirthCrossCheck = scannedData.DateOfBirth == pi.DateOfBirth;
-                pvr.ExpirationDateCrossCheck = scannedData.PassportExpiryDate == pi.PassportExpiryDate;
+                pvr.DateOfBirthCrossCheck = scannedData.DateOfBirth == TransformInputDateTime(pi.DateOfBirth, "Date of Birth");
+                pvr.ExpirationDateCrossCheck = scannedData.PassportExpiryDate == TransformInputDateTime(pi.PassportExpiryDate, "Date of Expiry");
                 pvr.NationalityCrossCheck = scannedData.Nationality == pi.Nationality;
                 pvr.PassportNumberCrossCheck = scannedData.PassportNumber == pi.PassportNum;
 
@@ -125,6 +125,21 @@ namespace PassportValidator
             string dateFormats = "yyMMdd";
 
             return DateTime.TryParseExact(dateInput, dateFormats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out Result);
+        }
+
+        private string TransformInputDateTime(string inputDate, string fieldName)
+        {
+            try {
+                return DateTime.ParseExact(inputDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("yyMMdd");
+            }
+            catch(FormatException ex)
+            {
+                throw new PassportDataException (string.Format("The {0} format is not in \"DD/MM/YYYY\" or invalid date value given. (\"{1}\")", fieldName, inputDate));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private bool IsValidGender (string genderInput)
